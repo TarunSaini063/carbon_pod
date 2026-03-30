@@ -46,4 +46,32 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initial check and scroll listener
   revealOnScroll();
   window.addEventListener("scroll", revealOnScroll);
+
+  // Handle contact form submission
+  const contactForm = document.getElementById("contactForm");
+  if (contactForm) {
+    contactForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById("name").value;
+      const company = document.getElementById("company").value;
+      const interest = document.getElementById("interest").value;
+      
+      const subject = `New Inquiry from ${name} at ${company}`;
+      const bodyText = `Name: ${name}\nCompany: ${company}\nPrimary Interest: ${interest}\n\nPlease provide more details below:\n`;
+      
+      window.location.href = `mailto:info@carbonpod.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+
+      const btn = contactForm.querySelector('button[type="submit"]');
+      const originalText = btn.textContent;
+      btn.textContent = "Opening Mail Client...";
+      btn.style.background = "var(--primary-green)";
+      contactForm.reset();
+      
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.background = "";
+      }, 3000);
+    });
+  }
 });
